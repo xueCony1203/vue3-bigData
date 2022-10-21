@@ -4,8 +4,7 @@
 import { getMapInfo } from "@/utils";
 
 /**
- *  获取最近5年的城市销售额度    模拟数据，这里year属性就不用了
- *  @param {string}  abcode  城市code
+ *  获取事业部-金额 柱形图  
  *  @param {number}  year       年份
  *  @returns {Array}
  */

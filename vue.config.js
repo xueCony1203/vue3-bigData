@@ -25,6 +25,7 @@ module.exports = {
   },
   configureWebpack: {
     name: name,
+    devtool: '#eval-source-map',
     resolve: {
       alias: {
         "@": resolve("src"),

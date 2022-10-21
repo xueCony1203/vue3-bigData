@@ -1,11 +1,55 @@
 import axios from "axios";
-const {stringify} = require('query-string');
+const { stringify } = require('query-string');
 
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000, // 请求超时时间
 });
+
+let http = {};
+
+/**
+ * get方法，对应get请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+
+http.get = function (url, params) {
+  return new Promise((resolve, reject) => {
+    service
+      .get(url, { params })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+        reject(e.data);
+      });
+  });
+};
+
+/**
+ * post方法，对应post请求
+ * @param {String} url [请求的url地址]
+ * @param {Object} params [请求时携带的参数]
+ */
+
+http.post = function (url, params) {
+  console.log(params)
+  return new Promise((resolve, reject) => {
+    service
+      .post(url, stringify(params))
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+        reject(e.data);
+      });
+  });
+};
+
 
 //请求
 service.interceptors.request.use((config) => {
@@ -85,48 +129,5 @@ service.interceptors.response.use(
     return Promise.reject(err); //请求错误时，直接结束
   }
 );
-
-let http = {};
-
-/**
- * get方法，对应get请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- */
-
-http.get = function(url, params) {
-  return new Promise((resolve, reject) => {
-    service
-      .get(url, { params })
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-        reject(e.data);
-      });
-  });
-};
-
-/**
- * post方法，对应post请求
- * @param {String} url [请求的url地址]
- * @param {Object} params [请求时携带的参数]
- */
-
-http.post = function(url, params) {
-  console.log(params)
-  return new Promise((resolve, reject) => {
-    service
-      .post(url, stringify(params))
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-        reject(e.data);
-      });
-  });
-};
 
 export default http;

@@ -16,14 +16,6 @@ const routes = [
           title: "首页",
         },
       },
-      {
-        path: "/more",
-        name: "more",
-        component: () => import("../views/more/index.vue"),
-        meta: {
-          title: "更多",
-        },
-      },
     ],
   },
 ];

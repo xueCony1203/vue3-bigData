@@ -1,21 +1,21 @@
 <template>
-  <div class="chart-wrapper" ref="cityCount"></div>
+  <div class="chart-wrapper" ref="divisionLeftChart1"></div>
 </template>
 
 <script>
 import echarts from "echarts";
 import { onMounted, onBeforeUnmount, ref, watch } from "vue";
 import { debounce } from "@/utils/index.js";
-
 import useResize from "@/componentApi/useResize.js";
-import { selectCityData } from "@/api/chart";
+// import { GetOrderDivisionChart1 } from "@/api/chart";
+import { GetOrderDivisionChart1 } from "@/api/mockChart";
 
 export default {
-  name: "cityCount",
+  name: "divisionLeftChart1",
   setup() {
     let { abcode, year, parentInfo, routerChange } = useResize();
 
-    const cityCount = ref(null);
+    const divisionLeftChart1 = ref(null);
     let myChart = ref(null);
 
     const resizeHandler = debounce(() => {
@@ -34,22 +34,15 @@ export default {
 
     //模拟接口，获取echarts数据
     const getChartData = async () => {
-      const { data } = await selectCityData({
-        abcode,
-        year,
-      });
-      let xData = [],
-        yData = [];
-      data.forEach((item) => {
-        xData.push(item.name);
-        yData.push(item.value);
-      });
+      const data =await GetOrderDivisionChart1().then((data) => { return data });
+      const xData = data.Center;
+      const yData = data.OrdersMoneyValue;
       initEcharts(xData, yData);
     };
 
     //渲染echarts图
     const initEcharts = (xData, yData) => {
-      myChart = echarts.init(cityCount.value);
+      myChart = echarts.init(divisionLeftChart1.value);
       myChart.setOption(
         {
           grid: {
@@ -190,14 +183,6 @@ export default {
         },
         true
       );
-
-      myChart.getZr().off("click");
-      myChart.getZr().on("click", (params) => {
-        const pointInPixel = [params.offsetX, params.offsetY];
-        if (myChart.containPixel("grid", pointInPixel) || xData.length === 0) {
-          routerChange("/more");
-        }
-      });
     };
 
     watch(
@@ -207,16 +192,9 @@ export default {
       },
       { lazy: false }
     );
-    watch(
-      parentInfo,
-      (nl, ol) => {
-        getChartData();
-      },
-      { lazy: false, deep: true }
-    );
 
     return {
-      cityCount,
+      divisionLeftChart1,
     };
   },
 };

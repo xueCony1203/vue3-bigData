@@ -22,9 +22,9 @@ export default {
   setup() {
     const keepAlive = useRoute().meta.keepAlive;
 
-    return {
-      keepAlive,
-    };
+return {
+  keepAlive,
+};
   },
 };
 </script>
@@ -34,7 +34,7 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  background: url("~@/assets/image/newBg.jpg") no-repeat center center;
+  background: url("~@/assets/image/newBg.png") no-repeat center center;
   background-size: cover;
 
   .main-container {

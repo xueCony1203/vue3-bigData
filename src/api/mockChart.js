@@ -1,4 +1,11 @@
 import request from "@/utils/request";
+import { smomRequest } from "@/utils/smomRequest";
+
+
+
+export function GetOrderDivisionChart1() {
+  return smomRequest("ErpBoardController", "GetOrderDivisionChart1", []);
+}
 //这里用mock数据
 
 /**
